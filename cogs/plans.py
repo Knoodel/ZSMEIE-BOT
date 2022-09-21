@@ -33,7 +33,9 @@ class PlansCog(commands.Cog):
         load_dotenv()
         options.binary_location = os.getenv('GOOGLE_CHROME_BIN')
         options.add_argument("--headless")
-        driver = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH") ,options=options)
+        options.add_argument('--disable-gpu')
+        options.add_argument('--no-sandbox')
+        driver = webdriver.Chrome(executable_pathse=os.getenv("CHROMEDRIVER_PATH"), chrome_options=options)
 
         driver.get(f"https://zsmeie.torun.pl/plan/plany/{o_part}.html")
         element = driver.find_element(By.CSS_SELECTOR, "body > div:nth-child(2) > table > tbody > tr:nth-child(1) > td > table > tbody")
