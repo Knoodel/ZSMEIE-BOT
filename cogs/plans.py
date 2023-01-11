@@ -29,14 +29,13 @@ class PlansCog(commands.Cog):
         if not o_part:
             return None
         
-        options = webdriver.ChromeOptions()
+        options = webdriver.FirefoxOptions()
         load_dotenv()
-        options.binary_location = os.getenv('GOOGLE_CHROME_BIN')
+        options.binary_location = os.getenv('GECKODRIVER_BIN')
         options.add_argument("--headless")
         options.add_argument('--disable-gpu')
         options.add_argument('--no-sandbox')
-        driver = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), chrome_options=options)
-
+        driver = webdriver.Firefox(executable_path=os.getenv("GECKODRIVER_PATH"), options=options)
         driver.get(f"https://zsmeie.torun.pl/plan/plany/{o_part}.html")
         element = driver.find_element(By.CSS_SELECTOR, "body > div:nth-child(2) > table > tbody > tr:nth-child(1) > td > table > tbody")
         element.screenshot('plan.png')

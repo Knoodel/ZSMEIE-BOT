@@ -12,6 +12,7 @@ class ZSMEIEBot(commands.Bot):
 
     async def setup_hook(self):
         await self.load_extension('cogs.plans')
+        await self.load_extension('cogs.announcements')
         await asyncio.sleep(1)
         print("Cogs loaded successfully!")
 

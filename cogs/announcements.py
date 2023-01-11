@@ -10,6 +10,7 @@ import dateutil.parser as dt
 class AnnouncementsCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.owner_id = 436567326263869441
         self.task.start()
 
     
@@ -40,16 +41,22 @@ class AnnouncementsCog(commands.Cog):
                         date = dt.parse(datestr)
                         embed = discord.Embed(title=header, url=link, timestamp = date, colour=0xFFC857)
                         embed.add_field(name='\u200B', value=content)
-                        await self.bot.get_channel(839430173011214386).send(embed=embed)
+                        await (await self.bot.fetch_user(self.owner_id)).send(embed=embed)
+                        
+                        
+    @commands.command(name='reset')
+    @commands.is_owner()
+    async def reset(self, ctx):
+        with open('announcements.json', 'w', encoding='UTF-8') as f:
+            json.dump({"announcements": []}, f)
+            await ctx.send('Wyczyszczono bazę danych!')
 
 
     @commands.command(name='ogloszenia')
-    @commands.guild_only()
     async def ogloszenia(self, ctx):
-        await ctx.message.delete()
         await self.scrap_announcements()
 
-    @tasks.loop(minutes=10)
+    @tasks.loop(minutes=1)
     async def task(self):
         await self.scrap_announcements()
 

@@ -1,5 +1,6 @@
 .env
-geckodriver.exe
 geckodriver.log
 .venv
+plan.png
 __pycache__
+cogs/__pycache__
